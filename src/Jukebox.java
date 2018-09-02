@@ -4,6 +4,8 @@
  */
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -11,7 +13,10 @@ import java.net.URL;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import javazoom.jl.player.advanced.AdvancedPlayer;
@@ -19,19 +24,46 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 /* 1. Download the JavaZoom jar from here: http://bit.ly/javazoom
  * 2. Right click your project and add it as an External JAR (Under Java Build Path > Libraries).*/
 
-public class Jukebox implements Runnable {
+public class Jukebox implements Runnable, ActionListener {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Jukebox());
+		new Jukebox().createUI(); 
 	}
-
+JButton button1 = new JButton();
+JButton button2 = new JButton();
+JButton button3 = new JButton(); 
+JPanel panel = new JPanel();
+JFrame frame = new JFrame(); 
+JLabel label = new JLabel(); 
+	Song jeopardy =   new Song("Jeopardy Theme.mp3"); 
+	Song friends = new Song("Friends Theme.mp3");
+	Song olympics = new Song("olympics.mp3");
+	private void createUI() {
+		frame.add(panel);
+		frame.setVisible(true);
+		button1.setText("JEOPARDY THEME");
+		button2.setText("FRIENDS THEME");
+		button3.setText("OLYMPICS THEME");
+		button1.addActionListener(this);
+		button2.addActionListener(this);
+		button3.addActionListener(this);
+		panel.add(button1);
+		panel.add(button2);
+		panel.add(button3);
+		frame.pack();
+		frame.setTitle("Pick a song!");
+		panel.add(label); 
+		
+	}
            public void run() {
 
 		// 3. Find an mp3 on your computer or on the Internet.
 		// 4. Create a Song
-
+        	Song jeopardy =   new Song("Jeopardy Theme.mp3"); 
+        	Song friends = new Song("Friends Theme.mp3");
+        	Song olympics = new Song("olympics.mp3");
 		// 5. Play the Song
-
 		/*
 		 * 6. Create a user interface for your Jukebox so that the user can to
 		 * choose which song to play. You can use can use a different button for
@@ -46,6 +78,31 @@ public class Jukebox implements Runnable {
 		Icon icon = new ImageIcon(imageURL);
 		return new JLabel(icon);
 	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		JButton buttonPressed = (JButton) e.getSource();
+		panel.remove(label);
+		if (buttonPressed.equals(button1)) {
+			friends.stop(); 
+			olympics.stop(); 
+			label = loadImage("Jeopardy.jpg");
+			panel.add(label); 
+			jeopardy.play(); 
+		} else if (buttonPressed.equals(button2)) {
+			jeopardy.stop();
+			olympics.stop();
+			label = loadImage("Friends.jpg");
+			panel.add(label); 
+			friends.play();
+	} else if (buttonPressed.equals(button3)) {
+		label = loadImage("olympics.jpg"); 
+		panel.add(label);
+		friends.stop();
+		jeopardy.stop();
+		olympics.play();
+	}
+		frame.pack();
 
 }
 
@@ -132,5 +189,5 @@ class Song {
 			return this.getClass().getResourceAsStream(songAddress);
 		}
 	}
-}
+}}
 
