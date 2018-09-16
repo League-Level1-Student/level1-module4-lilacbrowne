@@ -85,8 +85,7 @@ MediaPalace palace = new MediaPalace();
 	Color c = new Color(backgroundImage.getRGB(e.getX(), e.getY()));
 	System.out.println(c);
 		System.out.println(color);
-		//-4088729 = water //-2388480 orange // -2113411 wall// circle wall -3232657 // tap -69429 // -9338498 pointy
-	palace.speak("Welcome to the media palace");
+	//palace.speak("Welcome to the media palace");
 	if (color == -4088729) {
 		JLabel labell = palace.loadImageFromWithinProject("pink.png");
 		this.add(labell);
